@@ -12,7 +12,7 @@
 	<artifactId>WhateverAppMaven</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>WhateverAppMaven</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Demo project for Spring Boot and other stuff</description>
 	<properties>
 		<java.version>11</java.version>
 		<kotlin.version>1.6.21</kotlin.version>
@@ -46,13 +46,11 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.30</version>
 		</dependency>
-		<!--
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 			<version>2.7.2</version>
 		</dependency>
-		-->
 
 		<!-- testing -->
 		<dependency>
@@ -70,6 +68,24 @@
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 			<version>5.8.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.mockk</groupId>
+			<artifactId>mockk</artifactId>
+			<version>1.12.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.23.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>7.6.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
