@@ -10,6 +10,7 @@ class InputValidatorTest {
 
     private val inputValidator = InputValidator()
 
+    // ***************************** inputCheck() ************************************************
     @Test
     fun `should return true when all variables are not blank`() {
         // given
@@ -49,7 +50,8 @@ class InputValidatorTest {
         // then
         assertFalse(result)
     }
-    
+
+    // ***************************** emailCheck() ************************************************
     @Test
     fun `should return true when email is in correct format`() {
         // given

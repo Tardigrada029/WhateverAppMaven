@@ -3,7 +3,6 @@ package com.tardigrada.WhateverAppMaven.service
 import com.tardigrada.WhateverAppMaven.inputValidator.InputValidator
 import com.tardigrada.WhateverAppMaven.model.User
 import com.tardigrada.WhateverAppMaven.repository.UserRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
