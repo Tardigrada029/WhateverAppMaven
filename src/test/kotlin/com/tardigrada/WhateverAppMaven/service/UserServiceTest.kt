@@ -1,10 +1,15 @@
 package com.tardigrada.WhateverAppMaven.service
 
 import  com.tardigrada.WhateverAppMaven.inputValidator.InputValidator
+import com.tardigrada.WhateverAppMaven.model.User
 import com.tardigrada.WhateverAppMaven.repository.UserRepository
 import org.mockito.Mockito.mock
+import org.mockito.Mockito.`when`
 import org.springframework.boot.test.context.SpringBootTest
 import org.testng.Assert.*
+import org.testng.annotations.Test
+import java.time.LocalDate
+import java.util.*
 
 @SpringBootTest
 class UserServiceTest {
@@ -13,7 +18,6 @@ class UserServiceTest {
     private final val mockInputValidator: InputValidator = mock(InputValidator::class.java)
     val userService = UserService(mockUserRepository, mockInputValidator)
 
-    /*
     @Test
     fun `should return existing saved user`() {
         // given
@@ -28,7 +32,7 @@ class UserServiceTest {
         val telephoneNumber = "+447911123456"
         val user = User(userId, firstName, lastName, email, dateOfBirth, street, city, postcode, telephoneNumber)
 
-        whenever(mockUserRepository.findById(0).get()).thenReturn(user)
+        `when`(mockUserRepository.findById(0)).thenReturn(Optional.of(user))
 
         // when
         val result = userService.getUserById(0)
@@ -36,6 +40,5 @@ class UserServiceTest {
         // then
         assertEquals(user, result)
     }
-     */
 
 }
