@@ -6,10 +6,12 @@ import com.tardigrada.WhateverAppMaven.repository.UserRepository
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.springframework.boot.test.context.SpringBootTest
+import org.testng.Assert
 import org.testng.Assert.*
 import org.testng.annotations.Test
 import java.time.LocalDate
 import java.util.*
+import kotlin.NoSuchElementException
 
 @SpringBootTest
 class UserServiceTest {
@@ -39,6 +41,15 @@ class UserServiceTest {
 
         // then
         assertEquals(user, result)
+    }
+
+    @Test
+    fun `should return NoSuchElementException when there is no saved user`() {
+        // given
+        `when`(mockUserRepository.findById(0)).thenReturn(Optional.empty())
+
+        // when & then
+        expectThrows(NoSuchElementException::class.java, { userService.getUserById(0) })
     }
 
 }
