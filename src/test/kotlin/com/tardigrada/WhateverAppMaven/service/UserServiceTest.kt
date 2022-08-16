@@ -6,7 +6,6 @@ import com.tardigrada.WhateverAppMaven.repository.UserRepository
 import org.mockito.Mockito.*
 import org.springframework.boot.test.context.SpringBootTest
 import org.testng.Assert.*
-import org.testng.annotations.BeforeClass
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 import java.time.LocalDate
@@ -20,6 +19,18 @@ class UserServiceTest {
     lateinit var mockInputValidator: InputValidator
     lateinit var userService: UserService
 
+    val userId = 0
+    val firstName = "Kate"
+    val lastName = "Green"
+    val email = "green@gmail.com"
+    val dateOfBirth = LocalDate.of(1986, 4, 8)
+    val street = "Long"
+    val city = "London"
+    val postcode = "E1 6AN"
+    val telephoneNumber = "+447911123456"
+    val user = User(userId, firstName, lastName, email, dateOfBirth, street, city, postcode, telephoneNumber)
+
+
     @BeforeMethod
     fun setupBeforeClass() {
         mockUserRepository = mock(UserRepository::class.java)
@@ -31,17 +42,6 @@ class UserServiceTest {
     @Test
     fun `should create new user`() {
         // given
-        val userId = 0
-        val firstName = "Kate"
-        val lastName = "Green"
-        val email = "green@gmail.com"
-        val dateOfBirth = LocalDate.of(1986, 4, 8)
-        val street = "Long"
-        val city = "London"
-        val postcode = "E1 6AN"
-        val telephoneNumber = "+447911123456"
-        val user = User(userId, firstName, lastName, email, dateOfBirth, street, city, postcode, telephoneNumber)
-
         `when`(mockInputValidator.inputCheck(firstName, lastName, email, dateOfBirth, street, city, postcode,
             telephoneNumber)).thenReturn(true)
         `when`(mockInputValidator.emailCheck(email)).thenReturn(true)
@@ -57,17 +57,6 @@ class UserServiceTest {
     @Test
     fun `should throw IllegalArgumentException when there is an incorrect email format while creating new user`() {
         // given
-        val userId = 0
-        val firstName = "Kate"
-        val lastName = "Green"
-        val email = "greengmail.com"
-        val dateOfBirth = LocalDate.of(1986, 4, 8)
-        val street = "Long"
-        val city = "London"
-        val postcode = "E1 6AN"
-        val telephoneNumber = "+447911123456"
-        val user = User(userId, firstName, lastName, email, dateOfBirth, street, city, postcode, telephoneNumber)
-
         `when`(mockInputValidator.inputCheck(firstName, lastName, email, dateOfBirth, street, city, postcode,
             telephoneNumber)).thenReturn(true)
         `when`(mockInputValidator.emailCheck(email)).thenReturn(false)
@@ -80,17 +69,6 @@ class UserServiceTest {
     @Test
     fun `should throw IllegalArgumentException when there is blank variable while creating new user`() {
         // given
-        val userId = 0
-        val firstName = "Kate"
-        val lastName = "Green"
-        val email = "green@gmail.com"
-        val dateOfBirth = LocalDate.of(1986, 4, 8)
-        val street = ""
-        val city = "London"
-        val postcode = "E1 6AN"
-        val telephoneNumber = "+447911123456"
-        val user = User(userId, firstName, lastName, email, dateOfBirth, street, city, postcode, telephoneNumber)
-
         `when`(mockInputValidator.inputCheck(firstName, lastName, email, dateOfBirth, street, city, postcode,
             telephoneNumber)).thenReturn(false)
         `when`(mockInputValidator.emailCheck(email)).thenReturn(true)
@@ -104,17 +82,6 @@ class UserServiceTest {
     // @Ignore
     fun `should throw IllegalArgumentException while creating new user with existing email`() {
         // given
-        val userId = 0
-        val firstName = "Kate"
-        val lastName = "Green"
-        val email = "green@gmail.com"
-        val dateOfBirth = LocalDate.of(1986, 4, 8)
-        val street = "Long"
-        val city = "London"
-        val postcode = "E1 6AN"
-        val telephoneNumber = "+447911123456"
-        val user = User(userId, firstName, lastName, email, dateOfBirth, street, city, postcode, telephoneNumber)
-
         `when`(mockInputValidator.inputCheck(firstName, lastName, email, dateOfBirth, street, city, postcode,
             telephoneNumber)).thenReturn(true)
         `when`(mockInputValidator.emailCheck(email)).thenReturn(true)
@@ -129,17 +96,6 @@ class UserServiceTest {
     @Test
     fun `should return all existing saved users`() {
         // given
-        val userId = 0
-        val firstName = "Kate"
-        val lastName = "Green"
-        val email = "green@gmail.com"
-        val dateOfBirth = LocalDate.of(1986, 4, 8)
-        val street = "Long"
-        val city = "London"
-        val postcode = "E1 6AN"
-        val telephoneNumber = "+447911123456"
-        val user = User(userId, firstName, lastName, email, dateOfBirth, street, city, postcode, telephoneNumber)
-
         `when`(mockUserRepository.findAll()).thenReturn(mutableListOf(user))
         
         // when
@@ -153,17 +109,6 @@ class UserServiceTest {
     @Test
     fun `should return existing saved user with given id`() {
         // given
-        val userId = 0
-        val firstName = "Kate"
-        val lastName = "Green"
-        val email = "green@gmail.com"
-        val dateOfBirth = LocalDate.of(1986, 4, 8)
-        val street = "Long"
-        val city = "London"
-        val postcode = "E1 6AN"
-        val telephoneNumber = "+447911123456"
-        val user = User(userId, firstName, lastName, email, dateOfBirth, street, city, postcode, telephoneNumber)
-
         `when`(mockUserRepository.findById(0)).thenReturn(Optional.of(user))
 
         // when
@@ -186,17 +131,6 @@ class UserServiceTest {
     @Test
     fun `should update existing user with given id`() {
         // given
-        val userId = 0
-        val firstName = "Kate"
-        val lastName = "Green"
-        val email = "green@gmail.com"
-        val dateOfBirth = LocalDate.of(1986, 4, 8)
-        val street = "Long"
-        val city = "London"
-        val postcode = "E1 6AN"
-        val telephoneNumber = "+447911123456"
-        val user = User(userId, firstName, lastName, email, dateOfBirth, street, city, postcode, telephoneNumber)
-
         `when`(mockUserRepository.findById(0)).thenReturn(Optional.of(user))
         `when`(mockInputValidator.inputCheck(firstName, lastName, email, dateOfBirth, street, city, postcode,
             telephoneNumber)).thenReturn(true)
@@ -215,17 +149,6 @@ class UserServiceTest {
     @Test
     fun `should throw NoSuchElementException when user with given id is not present to update`() {
         // given
-        val userId = 0
-        val firstName = "Kate"
-        val lastName = "Green"
-        val email = "green@gmail.com"
-        val dateOfBirth = LocalDate.of(1986, 4, 8)
-        val street = "Long"
-        val city = "London"
-        val postcode = "E1 6AN"
-        val telephoneNumber = "+447911123456"
-        val user = User(userId, firstName, lastName, email, dateOfBirth, street, city, postcode, telephoneNumber)
-
         `when`(mockUserRepository.findById(0)).thenReturn(Optional.empty())
         `when`(mockInputValidator.inputCheck(firstName, lastName, email, dateOfBirth, street, city, postcode,
             telephoneNumber)).thenReturn(true)
@@ -242,17 +165,6 @@ class UserServiceTest {
     @Test
     fun `should delete existing user with given id`() {
         // given
-        val userId = 0
-        val firstName = "Kate"
-        val lastName = "Green"
-        val email = "green@gmail.com"
-        val dateOfBirth = LocalDate.of(1986, 4, 8)
-        val street = "Long"
-        val city = "London"
-        val postcode = "E1 6AN"
-        val telephoneNumber = "+447911123456"
-        val user = User(userId, firstName, lastName, email, dateOfBirth, street, city, postcode, telephoneNumber)
-
         `when`(mockUserRepository.findById(userId)).thenReturn(Optional.of(user))
         // looks like it's working, but I'm not sure (no idea what to do with Unit type)
         doNothing().`when`(mockUserRepository).deleteById(userId)
@@ -267,8 +179,6 @@ class UserServiceTest {
     @Test
     fun `should throw NoSuchElementException when user with given id is not present to delete`() {
         // given
-        val userId = 0
-
         `when`(mockUserRepository.findById(userId)).thenReturn(Optional.empty())
         // looks like it's working, but I'm not sure (no idea what to do with Unit type)
         doNothing().`when`(mockUserRepository).deleteById(userId)

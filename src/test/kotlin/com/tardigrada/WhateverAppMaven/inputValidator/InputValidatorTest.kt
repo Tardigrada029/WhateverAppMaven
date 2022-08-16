@@ -2,13 +2,19 @@ package com.tardigrada.WhateverAppMaven.inputValidator
 
 import org.springframework.boot.test.context.SpringBootTest
 import org.testng.Assert.*
+import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 import java.time.LocalDate
 
 @SpringBootTest
 class InputValidatorTest {
 
-    private val inputValidator = InputValidator()
+    lateinit var inputValidator: InputValidator
+
+    @BeforeMethod
+    fun setup() {
+        inputValidator = InputValidator()
+    }
 
     // ***************************** inputCheck() ************************************************
     @Test
