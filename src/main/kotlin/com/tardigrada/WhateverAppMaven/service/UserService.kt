@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service
 class UserService (private val userRepository: UserRepository, private val inputValidator: InputValidator) {
 
     fun saveUser(user: User): User {
-
         if (!(inputValidator.inputCheck(user.firstName, user.lastName, user.email, user.dateOfBirth, user.street,
                 user.city, user.postcode, user.telephoneNumber)) || !(inputValidator.emailCheck(user.email))) {
             throw java.lang.IllegalArgumentException("Fill all the fields in correct format.")
