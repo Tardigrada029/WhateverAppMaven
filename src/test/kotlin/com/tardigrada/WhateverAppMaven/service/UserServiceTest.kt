@@ -6,7 +6,8 @@ import com.tardigrada.WhateverAppMaven.repository.UserRepository
 import org.mockito.Mockito.*
 import org.springframework.boot.test.context.SpringBootTest
 import org.testng.Assert.*
-import org.testng.annotations.Ignore
+import org.testng.annotations.BeforeClass
+import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 import java.time.LocalDate
 import java.util.*
@@ -15,9 +16,16 @@ import kotlin.NoSuchElementException
 @SpringBootTest
 class UserServiceTest {
 
-    private final val mockUserRepository: UserRepository = mock(UserRepository::class.java)
-    private final val mockInputValidator: InputValidator = mock(InputValidator::class.java)
-    val userService = UserService(mockUserRepository, mockInputValidator)
+    lateinit var mockUserRepository: UserRepository
+    lateinit var mockInputValidator: InputValidator
+    lateinit var userService: UserService
+
+    @BeforeMethod
+    fun setupBeforeClass() {
+        mockUserRepository = mock(UserRepository::class.java)
+        mockInputValidator = mock(InputValidator::class.java)
+        userService = UserService(mockUserRepository, mockInputValidator)
+    }
 
     // ***************************** saveUser() ************************************************
     @Test
@@ -176,7 +184,6 @@ class UserServiceTest {
 
     // ***************************** updateUserById() ************************************************
     @Test
-    @Ignore
     fun `should update existing user with given id`() {
         // given
         val userId = 0
@@ -191,14 +198,44 @@ class UserServiceTest {
         val user = User(userId, firstName, lastName, email, dateOfBirth, street, city, postcode, telephoneNumber)
 
         `when`(mockUserRepository.findById(0)).thenReturn(Optional.of(user))
-        `when`(mockUserRepository)
-
+        `when`(mockInputValidator.inputCheck(firstName, lastName, email, dateOfBirth, street, city, postcode,
+            telephoneNumber)).thenReturn(true)
+        `when`(mockInputValidator.emailCheck(email)).thenReturn(true)
+        `when`(mockUserRepository.save(user)).thenReturn(user)
+        // looks like it's working, but I'm not sure (no idea what to do with Unit type)
+        doNothing().`when`(mockUserRepository).deleteById(userId)
 
         // when
-
+        val result = userService.updateUserById(user, userId)
         
         // then
+        assertEquals(result, user)
+    }
 
+    @Test
+    fun `should throw NoSuchElementException when user with given id is not present to update`() {
+        // given
+        val userId = 0
+        val firstName = "Kate"
+        val lastName = "Green"
+        val email = "green@gmail.com"
+        val dateOfBirth = LocalDate.of(1986, 4, 8)
+        val street = "Long"
+        val city = "London"
+        val postcode = "E1 6AN"
+        val telephoneNumber = "+447911123456"
+        val user = User(userId, firstName, lastName, email, dateOfBirth, street, city, postcode, telephoneNumber)
+
+        `when`(mockUserRepository.findById(0)).thenReturn(Optional.empty())
+        `when`(mockInputValidator.inputCheck(firstName, lastName, email, dateOfBirth, street, city, postcode,
+            telephoneNumber)).thenReturn(true)
+        `when`(mockInputValidator.emailCheck(email)).thenReturn(true)
+        `when`(mockUserRepository.save(user)).thenReturn(user)
+        // looks like it's working, but I'm not sure (no idea what to do with Unit type)
+        doNothing().`when`(mockUserRepository).deleteById(userId)
+
+        // when & then
+        expectThrows(NoSuchElementException::class.java) { userService.updateUserById(user, userId) }
     }
 
     // ***************************** deleteUserById() ************************************************
