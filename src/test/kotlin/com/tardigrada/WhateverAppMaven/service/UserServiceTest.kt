@@ -3,12 +3,8 @@ package com.tardigrada.WhateverAppMaven.service
 import  com.tardigrada.WhateverAppMaven.inputValidator.InputValidator
 import com.tardigrada.WhateverAppMaven.model.User
 import com.tardigrada.WhateverAppMaven.repository.UserRepository
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.`when`
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.mockito.Mockito.*
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.annotation.Rollback
 import org.testng.Assert.*
 import org.testng.annotations.Ignore
 import org.testng.annotations.Test
@@ -16,9 +12,6 @@ import java.time.LocalDate
 import java.util.*
 import kotlin.NoSuchElementException
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Rollback(false)
 @SpringBootTest
 class UserServiceTest {
 
@@ -182,8 +175,68 @@ class UserServiceTest {
     }
 
     // ***************************** updateUserById() ************************************************
-    // TODO
+    @Test
+    @Ignore
+    fun `should update existing user with given id`() {
+        // given
+        val userId = 0
+        val firstName = "Kate"
+        val lastName = "Green"
+        val email = "green@gmail.com"
+        val dateOfBirth = LocalDate.of(1986, 4, 8)
+        val street = "Long"
+        val city = "London"
+        val postcode = "E1 6AN"
+        val telephoneNumber = "+447911123456"
+        val user = User(userId, firstName, lastName, email, dateOfBirth, street, city, postcode, telephoneNumber)
+
+        `when`(mockUserRepository.findById(0)).thenReturn(Optional.of(user))
+        `when`(mockUserRepository)
+
+
+        // when
+
+        
+        // then
+
+    }
 
     // ***************************** deleteUserById() ************************************************
-    // TODO
+    @Test
+    fun `should delete existing user with given id`() {
+        // given
+        val userId = 0
+        val firstName = "Kate"
+        val lastName = "Green"
+        val email = "green@gmail.com"
+        val dateOfBirth = LocalDate.of(1986, 4, 8)
+        val street = "Long"
+        val city = "London"
+        val postcode = "E1 6AN"
+        val telephoneNumber = "+447911123456"
+        val user = User(userId, firstName, lastName, email, dateOfBirth, street, city, postcode, telephoneNumber)
+
+        `when`(mockUserRepository.findById(userId)).thenReturn(Optional.of(user))
+        // looks like it's working, but I'm not sure (no idea what to do with Unit type)
+        doNothing().`when`(mockUserRepository).deleteById(userId)
+
+        // when
+        val result = userService.deleteUserById(userId)
+
+        // then
+        assertEquals(result, Unit)
+    }
+    
+    @Test
+    fun `should throw NoSuchElementException when user with given id is not present to delete`() {
+        // given
+        val userId = 0
+
+        `when`(mockUserRepository.findById(userId)).thenReturn(Optional.empty())
+        // looks like it's working, but I'm not sure (no idea what to do with Unit type)
+        doNothing().`when`(mockUserRepository).deleteById(userId)
+        
+        // when & then
+        expectThrows(NoSuchElementException::class.java) { userService.deleteUserById(userId) }
+    }
 }
