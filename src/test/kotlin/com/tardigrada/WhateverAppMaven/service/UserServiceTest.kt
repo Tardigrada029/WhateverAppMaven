@@ -100,7 +100,7 @@ class UserServiceTest {
     }
 
     @Test
-    @Ignore
+    // @Ignore
     fun `should throw IllegalArgumentException while creating new user with existing email`() {
         // given
         val userId = 0
@@ -117,10 +117,11 @@ class UserServiceTest {
         `when`(mockInputValidator.inputCheck(firstName, lastName, email, dateOfBirth, street, city, postcode,
             telephoneNumber)).thenReturn(true)
         `when`(mockInputValidator.emailCheck(email)).thenReturn(true)
+        `when`(mockUserRepository.findAll()).thenReturn(mutableListOf(user))
         `when`(mockUserRepository.save(user)).thenReturn(user)
 
         // when & then
-        // TODO
+        expectThrows(IllegalArgumentException::class.java) { userService.saveUser(user) }
     }
 
     // ***************************** getUsers() ************************************************
