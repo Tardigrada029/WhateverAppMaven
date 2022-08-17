@@ -18,7 +18,7 @@ class InputValidatorTest {
 
     // ***************************** inputCheck() ************************************************
     @Test
-    fun `should return true when all variables are not blank`() {
+    fun `return true when all variables are not blank`() {
         // given
         val firstName = "Kate"
         val lastName = "Green"
@@ -38,7 +38,7 @@ class InputValidatorTest {
     }
     
     @Test
-    fun `should return false when all or some variables are blank`() {
+    fun `return false when all or some variables are blank`() {
         // given
         val firstName = "  "
         val lastName = ""
@@ -59,7 +59,7 @@ class InputValidatorTest {
 
     // ***************************** emailCheck() ************************************************
     @Test
-    fun `should return true when email is in correct format`() {
+    fun `return true when email is in correct format`() {
         // given
         val email = "green@gmail.com"
         
@@ -71,7 +71,7 @@ class InputValidatorTest {
     }
 
     @Test
-    fun `should return false when email is in incorrect format`() {
+    fun `return false when email is in incorrect format`() {
         // given
         val email = "green@emailcom"
 

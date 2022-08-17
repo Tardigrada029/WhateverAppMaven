@@ -1,6 +1,6 @@
 package com.tardigrada.WhateverAppMaven.service
 
-import  com.tardigrada.WhateverAppMaven.inputValidator.InputValidator
+import com.tardigrada.WhateverAppMaven.inputValidator.InputValidator
 import com.tardigrada.WhateverAppMaven.model.User
 import com.tardigrada.WhateverAppMaven.repository.UserRepository
 import org.mockito.Mockito.*
@@ -31,7 +31,6 @@ class UserServiceTest {
     private final val USER = User(USER_ID, FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
         TELEPHONE_NUMBER)
 
-
     @BeforeMethod
     fun setupBeforeClass() {
         mockUserRepository = mock(UserRepository::class.java)
@@ -41,7 +40,7 @@ class UserServiceTest {
 
     // ***************************** saveUser() ************************************************
     @Test
-    fun `should create new user`() {
+    fun `create new user`() {
         // given
         `when`(mockInputValidator.inputCheck(FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
             TELEPHONE_NUMBER)).thenReturn(true)
@@ -56,7 +55,7 @@ class UserServiceTest {
     }
 
     @Test
-    fun `should throw IllegalArgumentException when there is an incorrect email format while creating new user`() {
+    fun `throw IllegalArgumentException when there is an incorrect email format while creating new user`() {
         // given
         `when`(mockInputValidator.inputCheck(FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
             TELEPHONE_NUMBER)).thenReturn(true)
@@ -68,7 +67,7 @@ class UserServiceTest {
     }
 
     @Test
-    fun `should throw IllegalArgumentException when there is blank variable while creating new user`() {
+    fun `throw IllegalArgumentException when there is blank variable while creating new user`() {
         // given
         `when`(mockInputValidator.inputCheck(FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
             TELEPHONE_NUMBER)).thenReturn(false)
@@ -80,8 +79,7 @@ class UserServiceTest {
     }
 
     @Test
-    // @Ignore
-    fun `should throw IllegalArgumentException while creating new user with existing email`() {
+    fun `throw IllegalArgumentException while creating new user with existing email`() {
         // given
         `when`(mockInputValidator.inputCheck(FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
             TELEPHONE_NUMBER)).thenReturn(true)
@@ -95,7 +93,7 @@ class UserServiceTest {
 
     // ***************************** getUsers() ************************************************
     @Test
-    fun `should return all existing saved users`() {
+    fun `return all existing saved users`() {
         // given
         `when`(mockUserRepository.findAll()).thenReturn(mutableListOf(USER))
         
@@ -108,7 +106,7 @@ class UserServiceTest {
 
     // ***************************** getUserById() ************************************************
     @Test
-    fun `should return existing saved user with given id`() {
+    fun `return existing saved user with given id`() {
         // given
         `when`(mockUserRepository.findById(0)).thenReturn(Optional.of(USER))
 
@@ -120,7 +118,7 @@ class UserServiceTest {
     }
 
     @Test
-    fun `should throw NoSuchElementException when there is no saved user`() {
+    fun `throw NoSuchElementException when there is no saved user`() {
         // given
         `when`(mockUserRepository.findById(0)).thenReturn(Optional.empty())
 
@@ -130,14 +128,13 @@ class UserServiceTest {
 
     // ***************************** updateUserById() ************************************************
     @Test
-    fun `should update existing user with given id`() {
+    fun `update existing user with given id`() {
         // given
         `when`(mockUserRepository.findById(0)).thenReturn(Optional.of(USER))
         `when`(mockInputValidator.inputCheck(FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
             TELEPHONE_NUMBER)).thenReturn(true)
         `when`(mockInputValidator.emailCheck(EMAIL)).thenReturn(true)
         `when`(mockUserRepository.save(USER)).thenReturn(USER)
-        // looks like it's working, but I'm not sure (no idea what to do with Unit type)
         doNothing().`when`(mockUserRepository).deleteById(USER_ID)
 
         // when
@@ -148,14 +145,13 @@ class UserServiceTest {
     }
 
     @Test
-    fun `should throw NoSuchElementException when user with given id is not present to update`() {
+    fun `throw NoSuchElementException when user with given id is not present to update`() {
         // given
         `when`(mockUserRepository.findById(0)).thenReturn(Optional.empty())
         `when`(mockInputValidator.inputCheck(FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
             TELEPHONE_NUMBER)).thenReturn(true)
         `when`(mockInputValidator.emailCheck(EMAIL)).thenReturn(true)
         `when`(mockUserRepository.save(USER)).thenReturn(USER)
-        // looks like it's working, but I'm not sure (no idea what to do with Unit type)
         doNothing().`when`(mockUserRepository).deleteById(USER_ID)
 
         // when & then
@@ -164,10 +160,9 @@ class UserServiceTest {
 
     // ***************************** deleteUserById() ************************************************
     @Test
-    fun `should delete existing user with given id`() {
+    fun `delete existing user with given id`() {
         // given
         `when`(mockUserRepository.findById(USER_ID)).thenReturn(Optional.of(USER))
-        // looks like it's working, but I'm not sure (no idea what to do with Unit type)
         doNothing().`when`(mockUserRepository).deleteById(USER_ID)
 
         // when
@@ -178,10 +173,9 @@ class UserServiceTest {
     }
     
     @Test
-    fun `should throw NoSuchElementException when user with given id is not present to delete`() {
+    fun `throw NoSuchElementException when user with given id is not present to delete`() {
         // given
         `when`(mockUserRepository.findById(USER_ID)).thenReturn(Optional.empty())
-        // looks like it's working, but I'm not sure (no idea what to do with Unit type)
         doNothing().`when`(mockUserRepository).deleteById(USER_ID)
         
         // when & then
