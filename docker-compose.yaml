@@ -1,0 +1,39 @@
+version: '2.7.0'
+services:
+  # container name
+  whateverapp-maven:
+    # image
+    image: tardigrada029/whateverapp-maven:1.0
+    # ports
+    ports:
+      - "8000:8000"
+    # environmental variables
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/bank_db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Banana_029
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    # dependencies
+    depends_on:
+      - postgres-db
+    links:
+      - postgres-db
+
+      # container name
+  postgres-db:
+    # image
+    image: postgres:14.5-alpine
+    # ports
+    ports:
+      - "5432:5432"
+    # volumes
+    volumes:
+      - db-postgres-data:/var/lib/postgresql/data
+    # environmental variables
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=Banana_029
+      - POSTGRES_DB=bank_db
+
+volumes:
+  db-postgres-data:
